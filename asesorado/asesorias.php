@@ -24,29 +24,29 @@ $_SESSION['usuario'] = "marko";
 registro();
 function registro()
 {
-$user = $_SESSION['usuario'];
-//conecto con la base de datos 
-$conn = mysql_connect("localhost","root",""); 
-//selecciono la BDD 
-mysql_select_db("sisae",$conn); 
-
-//Sentencia SQL para buscar un usuario con esos datos 
-$ssql = "SELECT * FROM `asesoria` WHERE IdAlumno = '$user';";
-
-//Ejecuto la sentencia 
-$rs = mysql_query($ssql,$conn) or die("ERROR NO SE PUEDE INSERTAR EL ALUMNO"); 
-if($rs != 0)
-{
-	while ($row = mysql_fetch_array($rs))
-      {
-		  echo "Asesoria: " . $row['idAsesor'] . " Status " . $row['status'] . "<br>";
-      }
-}
-else{
-	echo"<div class='extra' id='headercito'>PROBLEMAS AL DAR DE ALTA TU ASESORIA INTENTALO DE NUEVO O CONTACTA AL ADMINISTRADOR</div>";
-}
-
-mysql_close($conn); 
+	$user = $_SESSION['usuario'];
+	//conecto con la base de datos 
+	$conn = mysql_connect("localhost","root",""); 
+	//selecciono la BDD 
+	mysql_select_db("sisae",$conn); 
+	
+	//Sentencia SQL para buscar un usuario con esos datos 
+	$ssql = "SELECT * FROM `asesoria` WHERE IdAlumno = '$user';";
+	
+	//Ejecuto la sentencia 
+	$rs = mysql_query($ssql,$conn) or die("ERROR NO SE PUEDE INSERTAR EL ALUMNO"); 
+	if($rs != 0)
+	{
+		while ($row = mysql_fetch_array($rs))
+	      {
+			  echo "Asesoria: " . $row['idAsesor'] . " Status " . $row['status'] . "<br>";
+	      }
+	}
+	else{
+		echo"<div class='extra' id='headercito'>PROBLEMAS AL DAR DE ALTA TU ASESORIA INTENTALO DE NUEVO O CONTACTA AL ADMINISTRADOR</div>";
+	}
+	
+	mysql_close($conn); 
 }
 ?>
 </div>

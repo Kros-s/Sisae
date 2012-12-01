@@ -2,7 +2,7 @@
 <?php
 session_start();
 $usuario = $_SESSION['user'];
-include("../../javascript/sisae.php");
+include("../../javascript/sisae.php");// ERROR BD PHP
 $mat = $sisae->Execute("SELECT materias.Materia FROM asesor_materia, materias WHERE materias.idMateria = asesor_materia.IdMateria AND asesor_materia.IdAsesor = '$usuario'");
 
 foreach($mat as $opcion)

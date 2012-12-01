@@ -1,10 +1,6 @@
 <?php
 session_start();
-if(isset($_SESSION['usuario']))
-{
-	$var = "hola";
-}
-else
+if(!isset($_SESSION['usuario']))
 {
 	header("Location: ../../index.html");
 }

@@ -13,11 +13,12 @@ else{
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Asesores | SISAE</title>
+
 <link href="../css/index.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="../javascript/prototype.js"></script>
 <script type="text/javascript" src="../javascript/ajax.js"></script>
 <script type="text/javascript" src="../javascript/index_asesor.js"></script>
-
+<link href="../style.css" rel="stylesheet" type="text/css" />
 </head>
 
 

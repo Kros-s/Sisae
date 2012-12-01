@@ -12,43 +12,33 @@ if(isset($_REQUEST['welcome']))
 
 function conect_database()
 {
-$nombre = $_REQUEST['nombre'];
-$paterno = $_REQUEST['ap_paterno'];
-$materno = $_REQUEST['ap_materno'];
-$boleta = $_REQUEST['bol'];
-$correo = $_REQUEST['correo'];
-$user = $_REQUEST['user'];
-$contra =  md5($_REQUEST['contra']);//PARA ENCRIPTAR LA CONTRASEÑA....
-	
-$conn = mysql_connect("localhost","root",""); 
-//selecciono la BDD 
-mysql_select_db("sisae",$conn);  
-
-//Sentencia SQL para dar de alta un nuevo usuario CUIDADO POR AHI OCURRIO ALGUN ERROR JEJEE...
-//TODO QUEDO BN
-$ssql = "SELECT * FROM `sisae`.`asesorusuario` WHERE IdAsesor = '$user'";
-$rs = mysql_query($ssql,$conn);
-
-if(mysql_num_rows($rs) == 0)//no existe
-{
-	$ssql = "INSERT INTO `sisae`.`asesorusuario` (`idAsesor`, `Nombres`, `Paterno`, `Materno`, `Boleta`, `clave`, `correo`, `status`) VALUES ('$user', '$nombre', '$paterno', '$materno', '$boleta', '$contra', '$correo', 'ACTIVE')";
-
-	//Ejecuto la sentencia 
-	$rs = mysql_query($ssql,$conn) or die("ERROR NO SE PUEDE INSERTAR EL ALUMNO"); 
-	if($rs != 0)
+	include ("../BD/BD.php");
+	$nombre = $_REQUEST['nombre'];
+	$paterno = $_REQUEST['ap_paterno'];
+	$materno = $_REQUEST['ap_materno'];
+	$boleta = $_REQUEST['bol'];
+	$correo = $_REQUEST['correo'];
+	$user = $_REQUEST['user'];
+	$contra =  md5($_REQUEST['contra']);//PARA ENCRIPTAR LA CONTRASEÑA....
+	// ALTERANDO CODIGO MUAHAHAHA !!
+	$data = $bd->Execute("SELECT * FROM `sisae`.`asesorusuario` WHERE IdAsesor = '$user'");	
+	if(emty($data))//no existe
 	{
-	header("Location: register.php?ready=yes"); 
-	}else
-	{header("Location: register.php?ready=no"); }
-
+		$rs = $bd->Upload("INSERT INTO `sisae`.`asesorusuario` (`idAsesor`, `Nombres`, `Paterno`, `Materno`, `Boleta`, `clave`, `correo`, `status`) VALUES ('$user', '$nombre', '$paterno', '$materno', '$boleta', '$contra','$correo', 'ACTIVE'");	
+		//Ejecuto la sentencia 
+		 
+		if($rs)
+		{
+		header("Location: register.php?ready=yes"); 
+		}else
+		{header("Location: register.php?ready=no"); }
 	
-}else
-{
-	echo"el usuario ya existe";
-	header("Location: register.php?user=no"); 
-}
-
-mysql_close($conn); 
+		
+	}else
+	{
+		echo"el usuario ya existe";
+		header("Location: register.php?user=no"); 
+	} 
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -136,7 +126,7 @@ if(isset($_GET['ready']))
      <sup class="rojo">*</sup>     <input name="welcome" type="hidden" id="welcome" value="welcome" /></td></tr></table>
   
     <p>
-      <input type="button" name="show" id="show" value="Enviar"  class="button"/>
+      <input type="submit" " name="show" id="show" value="Enviar"  class="button"/>
     </p>
     <p class="rojo"><sup>*</sup>Campos Obligatorios</p>
       </form>

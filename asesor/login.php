@@ -3,34 +3,25 @@ session_start();
 if(isset($_REQUEST['welcome']))
 {
 	conect_database();
+	
+	
 }
 
 function conect_database()
 {
+	include ("../BD/BD.php");
 	$usuario = $_REQUEST['txt_user'];
 	$contrasena = md5($_REQUEST['txt_pass']);
-//conecto con la base de datos
-$conn = mysql_connect("localhost","root","");
-//selecciono la BDD
-mysql_select_db("sisae",$conn);
-
-
-$ssql = "SELECT * FROM asesorusuario WHERE idAsesor = '$usuario' and clave = '$contrasena'";
-
-
-$rs = mysql_query($ssql,$conn);
-
-
-if (mysql_num_rows($rs)!=0){
-	$a = mysql_fetch_array($rs);
-	$_SESSION['user'] = $a['idAsesor'];
-    header ("Location: index.php");
-}else {
+	$data = $bd->Execute("SELECT * FROM asesorusuario WHERE idAsesor = '$usuario' and clave = '$contrasena'");
+	if (!empty($data)){
+		foreach ($data as $id) {
+			$_SESSION['user'] = $id['idAsesor'];			
+		}	
+    header ("Location: index.php?".$_SESSION['user']);
+	}else {
 
     header("Location: login.php?errorusuario=si");//en caso de que este mal asi mismo
-}
-mysql_free_result($rs);
-mysql_close($conn);
+	}
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -39,6 +30,7 @@ mysql_close($conn);
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Asesores | SISAE</title>
 <link href="../css/index.css" rel="stylesheet" type="text/css" />
+<link href="../style.css" rel="stylesheet" type="text/css" />
 </head>
 
 

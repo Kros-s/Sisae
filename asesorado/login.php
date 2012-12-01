@@ -9,28 +9,19 @@ function conect_database()
 {
 	$usuario = $_REQUEST['txt_user'];
 	$contrasena = md5($_REQUEST['txt_pass']);
-//conecto con la base de datos
-$conn = mysql_connect("localhost","root","");
-//selecciono la BDD
-mysql_select_db("sisae",$conn);
-
-
-$ssql = "SELECT * FROM usuarioalumno WHERE IdAlumno = '$usuario' and clave = '$contrasena'";
-
-
-$rs = mysql_query($ssql,$conn);
-
-
-if (mysql_num_rows($rs)!=0){
-	$a = mysql_fetch_array($rs);
-	$_SESSION['usuario'] = $a['IdAlumno'];
-	header ("Location: index.php");
-}else {
-
-    header("Location: login.php?errorusuario=si");
-}
-mysql_free_result($rs);
-mysql_close($conn);
+	include("../BD/BD.php");
+	$rs = $bd->Execute("SELECT * FROM usuarioalumno WHERE IdAlumno = '$usuario' and clave = '$contrasena'");	
+	
+	if (!empty($rs))
+	{
+		foreach ($rs as $row) {
+			$_SESSION['usuario'] = $row['IdAlumno'];	
+		}		
+		header ("Location: index.php");
+	}else {
+	
+	    header("Location: login.php?errorusuario=si");
+	}
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
